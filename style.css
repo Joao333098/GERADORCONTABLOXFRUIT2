@@ -1,0 +1,271 @@
+/* Fonte do iOS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #1e1e1e;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    position: relative;
+}
+
+/* MENU HAMBÚRGUER */
+.menu-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.bar {
+    width: 30px;
+    height: 4px;
+    background-color: white;
+    margin: 6px 0;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+/* MENU LATERAL */
+.menu {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    transition: 0.3s ease-in-out;
+}
+
+.menu.show {
+    left: 0;
+}
+
+.menu a {
+    display: block;
+    color: white;
+    font-size: 18px;
+    padding: 12px 0;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.menu a:hover {
+    color: #ff6b81;
+}
+
+/* CONTAINER PRINCIPAL */
+.container {
+    width: 90%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+#logo {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.rules-section {
+    margin-bottom: 40px;
+}
+
+h2 {
+    font-size: 1.5em;
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.rules-list {
+    list-style: none;
+    padding: 0;
+}
+
+.rule-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.rule-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.card-front,
+.card-back {
+    padding: 15px;
+}
+
+.card-front {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-back {
+    background-color: rgba(255, 255, 255, 0.1);
+    display: none;
+}
+
+.expand-icon {
+    font-size: 1.5em;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.rule-card.expanded .expand-icon {
+    transform: rotate(45deg);
+}
+
+.rule-card.expanded .card-back {
+    display: block;
+    animation: slideDown 0.5s ease;
+}
+
+.rule-card h3 {
+    margin: 0;
+    font-size: 1.1em;
+    color: white;
+}
+
+.rule-card p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.dinheiro-regra {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1em;
+    color: #ff6b81;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+    width: 100%;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 90%;
+    max-width: 350px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.close-btn {
+    background: #ff4757;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    background: #e84156;
+}
+
+/* Animação */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ajustes Responsivos */
+@media (max-width: 768px) {
+    .container {
+        max-width: 95%;
+        margin: 10px auto;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+
+    .rule-card {
+        margin-bottom: 8px;
+    }
+
+    .card-front,
+    .card-back {
+        padding: 10px;
+    }
+
+    .menu {
+        width: 200px;
+    }
+}
