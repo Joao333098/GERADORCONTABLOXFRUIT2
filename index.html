@@ -1,203 +1,409 @@
+
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia-Staff A7</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Formulário A7 - Staff</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #e74c3c;
+            --accent: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 10px 0;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: 0.4s all ease-out;
+            position: absolute;
+            top: 10px;
+            backdrop-filter: blur(8px);
+        }
+
+        .container.active {
+            transform: translateY(0);
+            opacity: 1;
+            position: relative;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateX(-15px);
+            transition: 0.4s all;
+        }
+
+        .active .question {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .question-number {
+            background: var(--primary);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 0.9em;
+            box-shadow: 0 3px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .question-text {
+            font-size: 1em;
+            color: #34495e;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            margin-top: 8px;
+            background: rgba(255,255,255,0.95);
+            transition: 0.2s all;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: 0.2s all;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        button.next {
+            background: var(--primary);
+            color: white;
+        }
+
+        button.back {
+            background: var(--secondary);
+            color: white;
+        }
+
+        button i {
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: #eee;
+            margin-bottom: 20px;
+            position: relative;
+            max-width: 600px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: 0.4s width;
+        }
+
+        /* Mobile Adaptations */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+                border-radius: 12px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+                flex-wrap: wrap;
+            }
+
+            .question-text {
+                font-size: 0.95em;
+            }
+
+            input, textarea, select {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            button {
+                padding: 10px 15px;
+                font-size: 0.85em;
+            }
+
+            .question-number {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8em;
+            }
+        }
+
+        .time-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .time-option {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s all;
+        }
+
+        .time-option.selected {
+            border-color: var(--primary);
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><img src="a7-logo.png" alt="Logo A7" id="logo"> Guia-Staff A7</h1>
-        </header>
-        <main>
-            <section class="rules-section">
-                <h2>Regras e Punições</h2>
-                <ul class="rules-list">
-                    <li class="rule-card" data-rule="troca-contas">
-                        <div class="card-front">
-                            <h3>Troca de Contas</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Mute de 1h, se continuar mute de 5h e etc.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="vendas">
-                        <div class="card-front">
-                            <h3>Vendas na Comunidade ou na DM</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Ban.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="privado-indevido">
-                        <div class="card-front">
-                            <h3>Privado Indevido</h3>
-                            <p>("trocar conta", "cobrar raids por frutas" e etc...)</p>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Mute de 2h, se continuar 6h e etc.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="trade-2etapas">
-                        <div class="card-front">
-                            <h3>Trade de 2 Etapas</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Mute de 1h, se continuar 5h e etc.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="up-contas">
-                        <div class="card-front">
-                            <h3>Up de Contas ou Pedir Up</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Mute de 1h, se continuar 5h e etc.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="poluicao-chat">
-                        <div class="card-front">
-                            <h3>Poluição de Chat</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p><b>Flood:</b> .delete e mute de 2h, caso continue 6h e etc.</p>
-                            <p><b>Textos Grandes/Decorativos:</b> Apague e peça para parar. Se não parar, mute de 1h, se repetir 5h.</p>
-                            <p><b>Flood + Textos Grandes:</b> 3 horas e se continuar 7 horas.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="baixo-calao">
-                        <div class="card-front">
-                            <h3>Palavras de Baixo Calão e Desrespeito</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Mute de 1h e dependendo dos xingamentos até 1 dia.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="mais-18">
-                        <div class="card-front">
-                            <h3>+18 (Mídias e Perfil Pornográfico)</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Ban.</p>
-                            <p><b>Nick +18:</b> Marcar e dar 5 minutos para mudar. Caso não mude, alterar o nome do membro e dar 1h por nick irregular.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="desrespeito-staff">
-                        <div class="card-front">
-                            <h3>Desrespeito/Xingamentos à Equipe Staff</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Mute de 12h e dependendo da gravidade +, se ir no privado ou sair da punição e continuar mute de 1 dia ou 2 dias dependendo do ocorrido.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="humor-negro">
-                        <div class="card-front">
-                            <h3>Piadas de Humor Negro e Preconceituosas</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Ban.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="racismo-nazismo">
-                        <div class="card-front">
-                            <h3>Racismo e Nazismo</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Ban.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="plagio">
-                        <div class="card-front">
-                            <h3>Plágio</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Avise para parar e se continuar mute de 1h depois 5h e etc.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="off-topic">
-                        <div class="card-front">
-                            <h3>Off Topic</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Avise o membro para ir ao chat correto, caso ele ignore de um mute de 1h, se continuar mute de 5h e etc.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="divulgacao">
-                        <div class="card-front">
-                            <h3>Divulgação (PV ou Servidor)</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Ban.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="abuso-poder">
-                        <div class="card-front">
-                            <h3>Abuso de Poder</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Caso algum staff abusar do poder, reporte para algum superior.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="explanar-info">
-                        <div class="card-front">
-                            <h3>Explanar Informação Staff</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Tudo o que for dito e feito dentro do âmbito staff, deve permanecer como assunto interno. Não explane nada daqui de dentro para gente de fora, sujeito a warn ou demote.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="marcar-staff-atoa">
-                        <div class="card-front">
-                            <h3>Marcar a Equipe Staff Atoa</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Mute de 1h, se continuar 5h e etc.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="scam">
-                        <div class="card-front">
-                            <h3>Scam (Links, Roubos e etc)</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>BAN. Caso não saiba o que seja um link fake, tire a dúvida com algum superior.</p>
-                        </div>
-                    </li>
-                    <li class="rule-card" data-rule="acusacoes-falsas">
-                        <div class="card-front">
-                            <h3>Acusações Falsas Contra Staff/Membros</h3>
-                            <div class="expand-icon">+</div>
-                        </div>
-                        <div class="card-back">
-                            <p>Ban.</p>
-                        </div>
-                    </li>
-                </ul>
-                 <p class="dinheiro-regra"><b>QUALQUER COISA RELACIONADA A DINHEIRO É BAN!</b></p>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2023 A7 - Todos os direitos reservados.</p>
-        </footer>
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 11%"></div>
     </div>
-    <script src="script.js"></script>
+
+    <form id="a7Form">
+        <!-- Passo 1 -->
+        <div class="container active" id="step1">
+            <h1><i class="fas fa-file-alt"></i>Formulário A7 - Staff</h1>
+            <div class="question">
+                <div class="question-number"><i class="fas fa-user"></i></div>
+                <div class="question-text">1. Seu nome e idade?</div>
+                <input type="text" placeholder="Ex: João Silva, 22 anos" required>
+            </div>
+            <div class="button-container">
+                <button type="button" class="next" onclick="nextStep(2)">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Passo 2 -->
+        <div class="container" id="step2">
+            <div class="question">
+                <div class="question-number"><i class="fas fa-clock"></i></div>
+                <div class="question-text">2. Há quanto tempo está no servidor?</div>
+                <input type="text" placeholder="Ex: 6 meses" required>
+            </div>
+            <div class="button-container">
+                <button type="button" class="back" onclick="prevStep(1)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="button" class="next" onclick="nextStep(3)">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Passo 3 -->
+        <div class="container" id="step3">
+            <div class="question">
+                <div class="question-number"><i class="fas fa-calendar-alt"></i></div>
+                <div class="question-text">3. Qual é o seu horário de maior disponibilidade?</div>
+                <div class="time-options">
+                    <div class="time-option" onclick="selectTimeOption(this)">Manhã</div>
+                    <div class="time-option" onclick="selectTimeOption(this)">Tarde</div>
+                    <div class="time-option" onclick="selectTimeOption(this)">Noite</div>
+                    <div class="time-option" onclick="selectTimeOption(this)">Madrugada</div>
+                </div>
+                <input type="text" placeholder="Especifique os dias (opcional)" style="margin-top: 10px;">
+            </div>
+            <div class="button-container">
+                <button type="button" class="back" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="button" class="next" onclick="nextStep(4)">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Passo 4 -->
+        <div class="container" id="step4">
+            <div class="question">
+                <div class="question-number"><i class="fas fa-comment-dots"></i></div>
+                <div class="question-text">4. Por que você quer fazer parte da equipe staff do servidor?</div>
+                <textarea required placeholder="Explique suas motivações..."></textarea>
+            </div>
+            <div class="button-container">
+                <button type="button" class="back" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="button" class="next" onclick="nextStep(5)">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Passo 5 -->
+        <div class="container" id="step5">
+            <div class="question">
+                <div class="question-number"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="question-text">5. Imagine que alguém desrespeita as regras no chat. O que você faria primeiro?</div>
+                <textarea required placeholder="Descreva suas ações..."></textarea>
+            </div>
+            <div class="button-container">
+                <button type="button" class="back" onclick="prevStep(4)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="button" class="next" onclick="nextStep(6)">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Passo 6 -->
+        <div class="container" id="step6">
+            <div class="question">
+                <div class="question-number"><i class="fas fa-star"></i></div>
+                <div class="question-text">6. Liste 3 qualidades suas que seriam úteis para a equipe.</div>
+                <textarea required placeholder="Ex: Paciente, organizado, bom comunicador..."></textarea>
+            </div>
+            <div class="button-container">
+                <button type="button" class="back" onclick="prevStep(5)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="button" class="next" onclick="nextStep(7)">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Passo 7 -->
+        <div class="container" id="step7">
+            <div class="question">
+                <div class="question-number"><i class="fas fa-chart-line"></i></div>
+                <div class="question-text">7. Liste 3 pontos em que você acredita que pode melhorar como membro da equipe.</div>
+                <textarea required placeholder="Ex: Gestão do tempo, conhecimento das regras..."></textarea>
+            </div>
+            <div class="button-container">
+                <button type="button" class="back" onclick="prevStep(6)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="button" class="next" onclick="nextStep(8)">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Passo 8 -->
+        <div class="container" id="step8">
+            <div class="question">
+                <div class="question-number"><i class="fas fa-hand-sparkles"></i></div>
+                <div class="question-text">8. O que te diferencia dos outros candidatos?</div>
+                <textarea required placeholder="Destaque seus diferenciais..."></textarea>
+            </div>
+            <div class="button-container">
+                <button type="button" class="back" onclick="prevStep(7)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="button" class="next" onclick="nextStep(9)">Próximo <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Passo 9 -->
+        <div class="container" id="step9">
+            <div class="question">
+                <div class="question-number"><i class="fas fa-check-double"></i></div>
+                <div class="question-text">9. Caso seja aceito(a), como você pretende se manter ativo(a) no servidor?</div>
+                <textarea required placeholder="Descreva seu plano de atividades..."></textarea>
+            </div>
+            <div class="button-container">
+                <button type="button" class="back" onclick="prevStep(8)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <button type="submit" class="next">Enviar <i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+    let currentStep = 1;
+    const totalSteps = 9; // Ajuste conforme o número de etapas
+
+    function showStep(step) {
+        document.querySelectorAll('.container').forEach((container, index) => {
+            if (index + 1 === step) {
+                container.classList.add('active');
+                container.style.display = "block";
+            } else {
+                container.classList.remove('active');
+                container.style.display = "none";
+            }
+        });
+
+        // Atualizar barra de progresso
+        const progress = ((step - 1) / (totalSteps - 1)) * 100;
+        document.querySelector('.progress-fill').style.width = `${progress}%`;
+
+        currentStep = step;
+    }
+
+    function nextStep(step) {
+        if (step <= totalSteps) {
+            showStep(step);
+        }
+    }
+
+    function prevStep(step) {
+        if (step > 0) {
+            showStep(step);
+        }
+    }
+
+    // Para os botões de seleção de horários
+    function selectTimeOption(element) {
+        document.querySelectorAll('.time-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        element.classList.add('selected');
+    }
+
+    // Inicializar o primeiro passo
+    document.addEventListener("DOMContentLoaded", function() {
+        showStep(currentStep);
+    });
+</script>
 </body>
 </html>
